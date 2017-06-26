@@ -10,7 +10,7 @@
 #' }
 #' @keywords imdb, enrich
 #' @export
-enrichIMDB<- function(df){
+enrichIMDB<- function(df,apikey){
         #read all unique  id's
         IDs<- unique(df$imdbID)
         #issue with rbind that breaks the column names, forces me to create a useless row
@@ -24,7 +24,7 @@ enrichIMDB<- function(df){
         dataframe<-data.frame(imdbID, runtime,director, writer,actors, plot,votes, stringsAsFactors = F)
         #  loop through ids and add information into a row and adding it to dataframe.
         for(i in IDs) {
-                link <- paste("http://www.omdbapi.com/?i=", i ,"&plot=full&r=json", sep = "")
+                link <- paste("http://www.omdbapi.com/?apikey=",apikey,"&i=", i ,"&plot=full&r=json", sep = "")
                 hold<-jsonlite::fromJSON(link)
                 newrow<- c( i, hold$Runtime, hold$Director, hold$Writer, hold$Actors, hold$Plot, hold$imdbVotes)
                 dataframe<-rbind(dataframe, newrow)

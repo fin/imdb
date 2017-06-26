@@ -41,8 +41,8 @@ not really care about case. "Game of Thrones" or "game of thrones" or
 "gAmE oF tHrONes "  is all fine. 
 
 ```{r example for game of trones season 1}
-library(imdb)
-imdbSeries("game of thrones ")
+library(imdb, lib.loc='C:/Users/hametner/Desktop/GitHub/imdb')
+imdbSeries("game of thrones ", 1, apikey)
 ```
 
 The command will return a data frame with Title, releasedate, episodenumber
@@ -51,8 +51,8 @@ imdb-rating, imdb ID and season.
 Would you like to know more about your series? Use the `enrichIMDB` command:
 
 ```{r enrichIMDB example game of thrones}
-season2GOT <-imdbSeries("game of thrones", seasons = 2)
-season2GOT_enriched <- enrichIMDB(season2GOT)
+season2GOT <-imdbSeries("game of thrones", seasons = 2, apikey)
+season2GOT_enriched <- enrichIMDB(season2GOT, apikey)
 ```
 
 The enrichIMDB command returns a seperate dataframe with 
@@ -71,8 +71,8 @@ Combining the information from the two dataframes can also be very useful.
 ```{r combining everything}
 library(ggplot2)
 suppressPackageStartupMessages(library(dplyr))
-GOTall<-imdbSeries("game of Thrones", 1:6)
-GOT <-left_join(GOTall, enrichIMDB(GOTall), by = "imdbID")
+GOTall<-imdbSeries("game of Thrones", 1:6, apikey)
+GOT <-left_join(GOTall, enrichIMDB(GOTall, apikey), by = "imdbID")
 ggplot(GOT, aes(Episode, imdbRating)) + 
         geom_smooth(aes(color = as.factor(Season)),se = FALSE , alpha = 1/10)+
         geom_point(aes(color = as.factor(Season), size = votes))+

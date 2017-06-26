@@ -3,9 +3,9 @@
 #'
 #' @param moviename Type the name of the movie
 #' @export
-imdbMovies <- function(moviename){
+imdbMovies <- function(moviename,apikey){
         link<-gsub(pattern = " ",
-                   replacement = "%20", x=(paste("http://www.omdbapi.com/?t=",moviename,"&type=movie&r=json&plot=full", sep = "")))
+                   replacement = "%20", x=(paste("http://www.omdbapi.com/?apikey=",apikey,"&t=",moviename,"&type=movie&r=json&plot=full", sep = "")))
         hold<-jsonlite::fromJSON(link)
         if(hold$Response != "True")stop("response is not valid")
         df <- data.frame(Title = hold$Title,

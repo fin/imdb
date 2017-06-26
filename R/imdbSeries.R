@@ -9,13 +9,14 @@
 #' }
 #' @keywords imdb, series
 #' @export
-imdbSeries<-function(seriesname, seasons = 1) {
+imdbSeries<-function(seriesname, seasons = 1, apikey) {
         if(!seasons >=1){stop("season numbers need to be above 1, try 1:2, 3 etc.")}
         df<-data.frame(Title = character(0), Released = character(0),
                        Episode = character(0), imdbRating = character(0),
                        imdbID = character(0), Season =numeric(0))  #creates empty dataframe
         for( i in seasons) {
-                link<-gsub(pattern = " ", replacement = "%20", x=(paste("http://www.omdbapi.com/?t=",seriesname,"&Season=",i, sep = "")))
+                theurl <- paste("http://www.omdbapi.com/?apikey=",apikey,"&t=",seriesname,"&Season=",i, sep = "")
+                link<-gsub(pattern = " ", replacement = "%20", x=(theurl))
                 hold<-jsonlite::fromJSON(link)  # link with spaces replaced
                 dftemp<-hold$Episodes #using only the Episodes part
                 dftemp$Season <-i     # adding variable season
