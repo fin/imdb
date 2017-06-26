@@ -23,7 +23,8 @@ imdbSeries<-function(seriesname, seasons = 1, apikey) {
                 df<- rbind(df, dftemp)# combining
                 #loops through seasons and combines the seasons into 1 dataframe.
         }
-        #assigning right classes.
+        #assigning right classes
+        df$Released<-gsub('^N/A$',NA, df$Released)
         df$Released<-as.Date(df$Released)
         df$Episode<- as.numeric(df$Episode)
         df$imdbRating<- as.numeric(df$imdbRating)
